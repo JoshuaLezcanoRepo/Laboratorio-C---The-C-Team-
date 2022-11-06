@@ -3,7 +3,7 @@
 
 Integrantes :busts_in_silhouette:
 - Kalchichen, Lucas Germán
-- Juan Pablo, Lenain
+- Lenain, Juan Pablo
 - Lezcano Genes, Joshua David
 - Tomás Suárez Zeniquel Alfonso
 
