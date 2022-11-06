@@ -1,0 +1,184 @@
+ACCIÓN laboratorio_thecteam ES    
+    AMBIENTE
+    a : arreglo [1..4 ; 1..16] de n;
+    x,y: n;
+
+    // Formulario -> entrada
+    arch: archivo de fort_paciente;
+    r: fort_paciente;
+
+    fort_paciente = REGISTRO
+            dni: N(8);
+            AyN = REGISTRO
+                Apellido: AN(30);
+                Nombre: AN(25);
+                Edad: 1..110;
+            FR;
+            Ejercicio: {'SI', 'NO'}
+            Frec: {'Diariamente', 'Cada 2 días', 'Cada 3 días'}
+            Vicios: {'SI', 'NO'} 
+            tiposVicio: {'Cigarillo', 'Alcohol', 'Drogas', ' '}
+            AntecedentesF: {'SI', 'NO'}
+            UltimaV: {'Recientemente', 'Cerca de 3 meses', 'Un año o mas'}
+            Calif: {'Alta', 'Media', 'Baja'}
+    FR; 
+
+    PROCEDIMIENTO grupo_ectario ES 
+        SEGÚN x HACER 
+            = 1: ESC('entre 15 y 30 años|');
+            = 2: ESC('entre 30 y 60 años|');
+            = 1: ESC('mayores a 60 años|');
+        FS;
+    FP;
+    
+PROCESO
+
+    // iniciamos contadores
+    PARA x:= 1 HASTA 4 HACER 
+        PARA y:= 1 HASTA 17 HACER 
+            a[x,y]:= 0;
+        FP;
+    FP;
+
+    // Abrimos el archivo (excel) de entrada
+    ABRIR/E(arch)
+    LEER(arch, r)
+
+    MIENTRAS NFDA(arch) HACER
+        // fila -> rango ectario
+        SEGUN edad HACER 
+            >= 15 ^ <=30: x:= 1;
+            <=60: x:= 2;
+            >60:  x:= 3;
+        FS;
+
+        // pregunta 1 y pregunta1.bis
+        SI (r.ejercicio = 'NO') ENTONCES
+            a[x,1]:= a[x,1] + 1;  // total que votaron "NO" 
+            a[4,1]:= a[4,1] + 1;  // total gral. que voto "NO"
+        CONTRARIO
+            SEGUN r.frec HACER
+                = 'Diariamente': a[x,2]:= a[x,2] + 1;
+                                 a[4,2]:= a[4,2] + 1;  // total que votaron diariamente
+                = 'Cada 2 días': a[x,3]:= a[x,3] + 1; 
+                                 a[4,3]:= a[4,3] + 1;  // total cada 2 dias
+
+                = 'Cada 3 días': a[x,4]:= a[x,4] + 1;
+                                 a[4,4]:= a[4,4] + 1;  // total cada 3 dias
+            FS;     
+        FS;
+
+        // pregunta 2 y pregunta2.bis 
+        SI (r.vicios = 'NO') ENTONCES
+            a[x,5]:= a[x,5] + 1; 
+            a[4,5]:= a[4,5] + 1;  // total gral. que voto "NO"
+        CONTRARIO
+            SEGUN r.tiposVicio HACER
+                = 'Cigarillo': a[x,6]:= a[x,6] + 1; 
+                               a[4,6]:= a[4,6] + 1;  // total gral. "Cigarrillo" 
+
+                = 'Alcohol': a[x,7]:= a[x,7] + 1;
+                             a[4,7]:= a[4,7] + 1;  // total gral. de "Alcohol"
+
+                = 'Drogas': a[x,8]:= a[x,8] + 1;
+                            a[4,8]:= a[4,8] + 1;  //  total gral. de "Drogas" 
+            FS;
+        FS;
+
+        // pregunta 3
+        SI (r.antecedentesF = 'SI') ENTONCES
+            a[x,9]:= a[x,9] + 1; 
+            a[4,9]:= a[4,9] + 1;     // total gral. "SI" 
+        CONTRARIO 
+            a[x,10]:= a[x,10] + 1; 
+            a[4,10]:= a[4,10] + 1;  // total gral. "NO"
+        FS;
+
+        // pregunta 4 
+        SEGUN r.UltimaV HACER 
+            ='Recientemente': a[x,11]:= a[x,11] + 1;
+                              a[4,11]:= a[4,11] + 1;  // total gral. de "Recientemente"
+            = 'Cerca de 3 meses': a[x,12]:= a[x,12] + 1; 
+                                  a[4,12]:= a[4,12] + 1;  // total gral. de "Cerca de 3 meses"
+            = 'Un año o más': a[x,13]:= a[x,13] + 1; 
+                              a[4,13]:= a[4,13] + 1;  // total gral. de "Un año o más" 
+        FS;
+
+        // pregunta 5
+        SEGUN r.calif HACER 
+            = 'Alta': a[x,14]:= a[x,14] + 1; 
+                      a[4,14]:= a[4,14] + 1;  // total gral. de "Alta" 
+
+            = 'Media': a[x,15]:= a[x,15] + 1; 
+                       a[4,15]:= a[4,15] + 1; // total gral. de "Media"
+
+            = 'Baja': a[x,16]:= a[x,16] + 1; 
+                      a[4,16]:= a[4,16] + 1; // total gral. de "Baja"
+        FS; 
+        Leer(arch, r);
+    FM;
+
+    ESC('Procesando Información..');
+    ESC('Informe Generado Exitosamente!');
+
+    ESC('Total de Personas que Votaron: ', a[4,1] + a[4,2]+ a[4,3]);
+    ESC('Total de Personas que no realizan Ejercicio: ', a[4,1]);
+    ESC('Total de Personas que realizan Ejercicio: ', a[4,2] + a[4,3]);
+    ESC('Total de Personas que realizan Ejercicio discriminados por Grupo Ectario y Opción: ');
+
+     // pregunta 1
+    ESC('|NO|Diariamente|Cada 2 dias|Cada 3 dias|');
+    PARA x:= 1 HASTA 3 HACER 
+        grupo_ectario()
+        PARA y:= 1 HASTA 4 HACER 
+                ESC('|', a[x,y], '|');
+        FP; 
+    FP;
+
+    // pregunta 2
+    ESC('Total de Personas con Vicios:', a[4,6] + a[4,7]+ a[4,8]);
+    ESC('Total de Personas que no tienen Vicios:', a[4,5]);
+    ESC('Total de Personas que tienen Vicios discriminados por Grupo Ectario y Opción');
+    ESC('|NO|Cigarrillo|Alcohol|Drogas|');
+    
+    PARA x:= 1 HASTA 3 HACER 
+        grupo_ectario()
+        PARA y:= 5 HASTA 8 HASTA 
+            ESC('|', a[x,y], '|');
+        FP; 
+    FP; 
+
+    // pregunta 3 
+    ESC('Total de Personas con antedecentes familiares con problemas cardiovasculares:', a[4,9]);
+    ESC('Total de Personas que no tienen antedecentes familiares con problemas cardiovasculares:', a[4,10]);
+    ESC('Total de Personas que tienen o no antecentes familiares con problemas cardiovasculares discriminado por Grupo Ectario y Opción'); 
+    ESC('|SI|NO|');
+    PARA x:= 1 HASTA 3 HACER 
+        grupo_ectario()
+        PARA y:= 9 HASTA 10 HASTA 
+            ESC('|', a[x,y], '|');
+        FP; 
+    FP;
+
+    // pregunta 4 
+    ESC('Total de Personas que viSItaron al cardiologo discriminado por Grupo Ectario y Opción'); 
+    ESC('|Recientemente|Cerca de 3 meses|Un año o mas|');
+    PARA x:= 1 HASTA 3 HACER 
+        grupo_ectario()
+        PARA y:= 11 HASTA 13 HASTA 
+            ESC('|', a[x,y], '|');
+        FP;
+    FP;
+
+    // pregunta 5 
+    ESC('Calificacion de consumo de sal discriminado por Grupo Ectario y Opción');
+    ESC('|Alta|Media|Baja');
+        PARA x:= 1 HASTA 3 HACER 
+        grupo_ectario()
+        PARA y:= 14 HASTA 16 HASTA 
+            ESC('|', a[x,y], '|');
+        FP; 
+    FP;
+    CERRAR(arch)
+
+FA;
