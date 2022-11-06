@@ -23,6 +23,7 @@ Datos a ingresar por el usuario:
 ```
 
 Pseudocódigo:
+
 ![code](https://user-images.githubusercontent.com/96133436/200199100-dac17b34-c37b-487c-9184-6f34fc3db9a5.png)
 
 [Link Vídeo Youtube](https://youtube.com/)
