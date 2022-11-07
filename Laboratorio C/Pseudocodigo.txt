@@ -27,7 +27,7 @@ ACCIÓN laboratorio_thecteam ES
         SEGÚN x HACER 
             = 1: ESC('entre 15 y 30 años|');
             = 2: ESC('entre 30 y 60 años|');
-            = 1: ESC('mayores a 60 años|');
+            = 3: ESC('mayores a 60 años|');
         FS;
     FP;
     
