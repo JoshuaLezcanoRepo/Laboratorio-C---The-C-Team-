@@ -8,7 +8,7 @@ Integrantes :busts_in_silhouette:
 - Tomás Suárez Zeniquel Alfonso
 
 Enunciado :bookmark_tabs:
-> *"La empresa ISI-B, pionera en estudios cardiovasculares en Argentina, está llevando a cabo una encuesta nacional donde se pedirá a los usuarios que ingresen datos que hacen a su vida cotidiana en distintos ámbitos, como ser hábitos alimenticios, actividad física, vicios, descanso, estrés, etc; 
+> *"La empresa Instituto Cardiovascular de Buenos Aires (ICBA), pionera en estudios cardiovasculares en Argentina, está llevando a cabo una encuesta nacional donde se pedirá a los usuarios que ingresen datos que hacen a su vida cotidiana en distintos ámbitos, como ser hábitos alimenticios, actividad física, vicios, descanso, estrés, etc; 
 Luego de finalizada la encuesta, se analizará cuales son los patrones de conducta que inducen a las personas a ser más propensas a contraer enfermedades cardiovasculares, con el objetivo de realizar una campaña publicitaria a nivel nacional para concientizar a las personas acerca del cuidado de la salud cardiovascular."*
 
 Datos a ingresar por el usuario:
